@@ -7,6 +7,7 @@ You can then use VLC to open this m3u file (View > Playlist to change channel)
 You can run it directly with:
 
 `tortv run`                              ==> default categories
+
 `tortv run -c "portugal english sport"`  ==> custom categories
 
 ## Install the tool
