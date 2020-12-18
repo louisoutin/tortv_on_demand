@@ -13,20 +13,25 @@ You can run it directly with:
 ## Install the tool
 
 1) On ubuntu chromedriver and chrome or chromium are required:
+
 `apt-get install chromium-chromedriver`
 
 2) Just pip install this package locally:
+
 `pip install .`
 
 ## Usage
 
 Default categories ("france" and "sport"):
+
 `tortv run `
 
 Show the browser :
+
 `tortv run --show` or `tortv run -s`
 
 Use a specific channel categories:
+
 `tortv run -l "portugal sport russ"`
 
 
