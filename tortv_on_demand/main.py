@@ -9,6 +9,7 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from tortv_on_demand.tempmail import NADA
 from pathlib import Path
+from .categories import CATEGORIES
 
 
 def slow_typing(element, text):
@@ -26,7 +27,18 @@ def rm_tree(pth: Path):
     pth.rmdir()
 
 
-def process(show_browser: bool):
+def process(show_browser: bool, categories: list):
+    """
+
+    :param show_browser:
+    :param categories:
+    :return:
+    """
+    for c in categories:
+        if c not in CATEGORIES:
+            raise RuntimeError("The category ->"+str(c)+" is not available,"
+                               "please choose from the following list: "
+                               + str(list(CATEGORIES.keys())))
     mailclient = NADA()
 
     if show_browser:
@@ -46,8 +58,9 @@ def process(show_browser: bool):
     tmp_dir.mkdir(exist_ok=True)
     with open("./tmp/current.jpg", "wb") as f:
         f.write(r.content)
-
-    captcha_code = read_captcha("./tmp/current.jpg", '../templates/')
+    captcha_code = read_captcha("./tmp/current.jpg")
+    print("captcha code found :", captcha_code)
+    rm_tree(Path("./tmp"))
     my_name = names.get_full_name()
     my_password = "azerty"
     my_email = mailclient.getData()
@@ -61,8 +74,11 @@ def process(show_browser: bool):
 
     for key, value in forms.items():
         current = browser.find_element_by_xpath(key)
-        slow_typing(current, value)
-        time.sleep(1)
+        if show_browser:
+            slow_typing(current, value)
+            time.sleep(1)
+        else:
+            current.send_keys(value)
 
     browser.find_element_by_xpath("//button").click()
     time.sleep(3)
@@ -107,15 +123,17 @@ def process(show_browser: bool):
     browser.find_element_by_xpath("//button").click()
 
     time.sleep(2)
+    selected_categories = {}
 
-    # check category checkboxes
-    categories = {
-        "france": 11,
-        "sport": 12
-    }
+    for c in categories:
+        selected_categories[c] = CATEGORIES[c]
+    if len(selected_categories.keys()) == 0:
+        raise RuntimeError("No categorie specified !")
 
-    for cat in categories.keys():
-        xpath = "//input[@value='" + str(categories[cat]) + "']"
+    print("Selected Channels categories : ", list(selected_categories.keys()))
+
+    for cat in selected_categories.keys():
+        xpath = "//input[@value='" + str(selected_categories[cat]) + "']"
         browser.find_element_by_xpath(xpath).click()
 
     browser.find_element_by_xpath("//button").click()
@@ -139,8 +157,6 @@ def process(show_browser: bool):
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
-
-    rm_tree(Path("./tmp"))
 
     print("Successfully saved the m3u8 !!")
     print("You can now open the file " + str(os.getcwd()) + "/" + output_name + " using VLC and enjoy ;)")

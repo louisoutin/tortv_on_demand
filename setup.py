@@ -20,6 +20,8 @@ setup(
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=requirements,
+    include_package_data=True,
+    package_data={'': ['templates/*.png']},
     entry_points={
         'console_scripts': [
             'tortv=tortv_on_demand.cli:run_main',

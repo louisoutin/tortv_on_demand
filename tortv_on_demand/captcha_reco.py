@@ -1,23 +1,23 @@
 import cv2
-from pathlib import Path
 import numpy as np
+import pkg_resources
 
 
-def template_location(image: str, template: str, method: str = 'cv2.TM_CCOEFF_NORMED', threshold: float = 0.8):
+def template_location(image: str, template_number: int, method: str = 'cv2.TM_CCOEFF_NORMED', threshold: float = 0.8):
     method = eval(method)
     img = cv2.imread(image, 0)
-    template = cv2.imread(template, 0)
+    stream = pkg_resources.resource_stream(__name__, 'templates/'+str(template_number)+'.png')
+    file_bytes = np.asarray(bytearray(stream.read()), dtype=np.uint8)
+    template = cv2.imdecode(file_bytes, 0)
     res = cv2.matchTemplate(img, template, method)
     loc = np.where(res >= threshold)
     return list(loc[1])
 
 
-def read_captcha(image_path: str, template_folder: str):
+def read_captcha(image_path: str):
     captcha = []
-    templates_imgs = [x for x in Path(template_folder).iterdir() if x.suffix == ".png"]
-    templates_imgs.sort()
-    for i, template_path in enumerate(templates_imgs):
-        res = template_location(str(image_path), str(template_path))
+    for i in range(10):
+        res = template_location(str(image_path), i)
         captcha += [(r, i) for r in res]
     captcha.sort(key=lambda tup: tup[0])  # sorts in place
     str_res = ""
