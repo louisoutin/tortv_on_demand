@@ -9,11 +9,13 @@ def run_main():
     TorTV On Demand.
     Run this to generate a m3u file to get all TV channels in HD and free for
     24h.
-
+    You can then use VLC to open this m3u file (View > Playlist to change channel)
+    
     You can run it directly with:
 
     `tortv run`                              ==> default categories
     `tortv run -c "portugal english sport"`  ==> custom categories
+
 
     Availables categories for now:
         - "english"

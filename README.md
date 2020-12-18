@@ -2,7 +2,7 @@
 
 Run this to generate a m3u file to get all TV channels in HD and free for
 24h.
-You can then use VLC to open this m3u file.
+You can then use VLC to open this m3u file (View > Playlist to change channel)
 
 You can run it directly with:
 
@@ -31,4 +31,3 @@ Use a specific channel categories:
 
 Note: The available categories are in `./tortv_on_demand/categories.py`, there is not all the categories there,
 you can add more by adding the checkbox value from the html page where it scraps.
-
