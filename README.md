@@ -1,5 +1,9 @@
 # TorTV on-demand
 
+## Update:
+
+They unfortunately fixed their system and they have a whitelist of mails, so this doesn't work abymore ^^
+
 Run this to generate a m3u file to get all TV channels in HD and free for
 24h.
 You can then use VLC to open this m3u file (View > Playlist to change channel)
