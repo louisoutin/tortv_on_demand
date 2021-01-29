@@ -2,7 +2,7 @@
 
 ## Update:
 
-They unfortunately fixed their system and they have a whitelist of mails, so this doesn't work abymore ^^
+They unfortunately fixed their system and they have a whitelist of mails, so this doesn't work anymore ^^
 
 Run this to generate a m3u file to get all TV channels in HD and free for
 24h.
